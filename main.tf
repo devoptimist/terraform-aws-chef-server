@@ -16,6 +16,7 @@ module "chef_server" {
   version                     = "1.21.0"
 
   name                        = "${var.name}-chef-server"
+  name_array                  = "${var.name_array}"
   instance_count              = "${var.instance_count}"
   associate_public_ip_address = "${var.associate_public_ip_address}"
   ami                         = "${var.ami}"

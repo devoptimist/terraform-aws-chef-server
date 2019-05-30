@@ -2,6 +2,11 @@ variable "name" {
   type    = "string"
 }
 
+variable "name_array" {
+  type    = "list"
+  default = []
+}
+
 variable "chef_user" {
   type    = "string"
   default = "chefuser"
