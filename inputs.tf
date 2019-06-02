@@ -24,7 +24,7 @@ variable "chef_org" {
 
 variable "chef_server_version" {
   type    = "string"
-  default = "12.19.44"
+  default = "12.19.31"
 }
 
 variable "chef_org_pem" {

@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -x
+exec > /tmp/part-001.log 2>&1
+
 rpm -Uhv https://packages.chef.io/files/stable/chef-server/${chef_server_version}/el/7/chef-server-core-${chef_server_version}-1.el7.x86_64.rpm
 chef-server-ctl reconfigure
 
