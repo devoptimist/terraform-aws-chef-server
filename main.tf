@@ -60,11 +60,11 @@ resource "null_resource" "chef_run" {
 
   provisioner "remote-exec" {
     inline = [
-      "curl -LO https://www.chef.io/chef/install.sh && sudo bash ./install.sh -P chef-workstation",
-      "chef install ${var.tmp_path}/Policyfile.rb --chef-license accept",
+      "curl -LO https://www.chef.io/chef/install.sh && sudo bash ./install.sh -P ${var.chef_bootstrap_product} -v ${var.chef_bootstrap_version}",
+      "chef install ${var.tmp_path}/Policyfile.rb",
       "chef export ${var.tmp_path}/Policyfile.rb . -a",
       "mv chef_server_wrapper-*.tgz ${var.tmp_path}/cookbooks.tgz",
-      "sudo chef-solo --recipe-url ${var.tmp_path}/cookbooks.tgz -j ${var.tmp_path}/first-boot.json"
+      "sudo chef-solo --recipe-url ${var.tmp_path}/cookbooks.tgz -j ${var.tmp_path}/first-boot.json --chef-license accept"
     ]
   }
   depends_on = ["module.chef_server"]

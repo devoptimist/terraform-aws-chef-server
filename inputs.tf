@@ -25,6 +25,16 @@ variable "system_user_pass" {
   default = "P@55w0rd1"
 }
 
+variable "chef_bootstrap_product" {
+  type    = "string"
+  default = "chef-workstation"
+}
+
+variable "chef_bootstrap_version" {
+  type    = "string"
+  default = "0.3.2"
+}
+
 variable "system_user_public_ssh_key" {
   type    = "string"
   default = ""
