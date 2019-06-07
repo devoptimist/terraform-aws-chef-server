@@ -2,24 +2,58 @@ variable "name" {
   type    = "string"
 }
 
-variable "name_array" {
-  type    = "list"
-  default = []
+variable "chef_server_cookbook_repo" {
+  type    = "string"
+  default = "https://github.com/devoptimist/chef_server_wrapper.git"
+}
+variable "chef_server_cookbook_github_path" {
+  type    = "string"
+  default = "devoptimist/chef_server_wrapper"
 }
 
-variable "chef_user" {
+variable "create_system_user" {
+  default = true
+}
+
+variable "system_user_name" {
   type    = "string"
   default = "chefuser"
 }
 
-variable "chef_pass" {
+variable "system_user_pass" {
   type    = "string"
-  default = "P@55word1"
+  default = "P@55w0rd1"
 }
 
-variable "chef_org" {
+variable "system_user_public_ssh_key" {
   type    = "string"
-  default = "cheforg"
+  default = ""
+}
+
+variable "chef_server_users" {
+  default = {
+    "jdoe" = {
+      "serveradmin"   = true
+      "first_name"    = "Jane"
+      "last_name"     = "Doe"
+      "email"         = "jdoe@mycompany.com"
+      "password"      = "P@55w0rd1"
+    }
+  }
+}
+
+variable "chef_server_orgs" {
+  default = {
+    "chef-org" = {
+      "admins"        = ["jdoe"]
+      "org_full_name" = "My Chef Organization"
+    }
+  }
+}
+
+variable "chef_server_channel" {
+  type    = "string"
+  default = "stable"
 }
 
 variable "chef_server_version" {
@@ -27,14 +61,23 @@ variable "chef_server_version" {
   default = "12.19.31"
 }
 
-variable "chef_org_pem" {
-  type    = "string"
-  default = "/tmp/cheforg-validator.pem"
+variable "chef_server_accept_license" {
+  default = true
 }
 
-variable "chef_user_pem" {
+variable "chef_server_data_collector_url" {
   type    = "string"
-  default = "/tmp/chefuser.pem"
+  default = ""
+}
+
+variable "chef_server_data_collector_token" {
+  type    = "string"
+  default = ""
+}
+
+variable "chef_server_config" {
+  type    = "string"
+  default = ""
 }
 
 variable "instance_count" {
@@ -62,8 +105,8 @@ variable "vpc_security_group_ids" {
   type = "list"
 }
 
-variable "subnet_ids" {
-  type = "list"
+variable "subnet_id" {
+  type = "string"
 }
 
 variable "root_disk_size" {
@@ -71,6 +114,9 @@ variable "root_disk_size" {
 }
 
 variable "tags" {
-  type    = "map"
   default = {}
+}
+
+variable "tmp_path" {
+  default = "/var/tmp"
 }

@@ -1,0 +1,12 @@
+{
+  "chef_server_wrapper": {
+    "channel": "${channel}",
+    "version": "${version}",
+    "accept_license": "${accept_license}",
+    "data_collector_url": "${data_collector_url}",
+    "data_collector_token": "${data_collector_token}",
+    "config": "${config}",
+    "chef_users": ${chef_users},
+    "chef_orgs": ${chef_orgs}
+  }
+}

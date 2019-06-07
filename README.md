@@ -43,7 +43,7 @@ data "aws_ami" "chef_server_image" {
 
 module "chef_server" {
   source                      = "devoptimist/chef-server/aws"
-  version                     = "0.0.3"
+  version                     = "0.0.4"
   name                        = "chef-server" 
   chef_user                   = "mike"
   chef_pass                   = "P@55w0rd1"
