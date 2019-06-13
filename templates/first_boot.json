@@ -5,6 +5,10 @@
     "accept_license": "${accept_license}",
     "data_collector_url": "${data_collector_url}",
     "data_collector_token": "${data_collector_token}",
+    "starter_pack_user": "${starter_pack_user}",
+    "starter_pack_org": "${starter_pack_org}",
+    "starter_pack_path": "${starter_pack_path}",
+    "starter_pack_knife_rb_path": "${starter_pack_knife_rb_path}",
     "config": "${config}",
     "chef_users": ${chef_users},
     "chef_orgs": ${chef_orgs}

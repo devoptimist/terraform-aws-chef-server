@@ -8,14 +8,18 @@ locals {
     system_user_public_ssh_key = var.system_user_public_ssh_key
   })
   first_boot = templatefile("${path.module}/templates/first_boot.json", {
-    channel              = var.chef_server_channel,
-    version              = var.chef_server_version,
-    accept_license       = var.chef_server_accept_license,
-    data_collector_url   = var.chef_server_data_collector_url,
-    data_collector_token = var.chef_server_data_collector_token,
-    config               = var.chef_server_config,
-    chef_users           = local.chef_users,
-    chef_orgs            = local.chef_orgs,
+    channel                    = var.chef_server_channel,
+    version                    = var.chef_server_version,
+    accept_license             = var.chef_server_accept_license,
+    data_collector_url         = var.chef_server_data_collector_url,
+    data_collector_token       = var.chef_server_data_collector_token,
+    starter_pack_user          = var.chef_server_starter_pack_user,
+    starter_pack_org           = var.chef_server_starter_pack_org,
+    starter_pack_path          = var.chef_server_starter_pack_location,
+    starter_pack_knife_rb_path = var.chef_server_starter_pack_knife_rb_path,
+    config                     = var.chef_server_config,
+    chef_users                 = local.chef_users,
+    chef_orgs                  = local.chef_orgs
   })
 }
 
@@ -68,4 +72,43 @@ resource "null_resource" "chef_run" {
     ]
   }
   depends_on = ["module.chef_server"]
+}
+
+resource "null_resource" "starter_pack" {
+
+  connection {
+    user        = var.system_user_name
+    password    = var.system_user_pass
+    host        = "${module.chef_server.public_ip[0]}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /tmp/chef-repo/.chef",
+      "mkdir -p /tmp/chef-repo/cookbooks",
+      "mkdir -p /tmp/chef-repo/policies",
+      "sudo cp /etc/opscode/users/${var.chef_server_starter_pack_user}.pem /tmp/chef-repo/.chef/",
+      "sudo cp /etc/opscode/orgs/${var.chef_server_starter_pack_org}-validation.pem /tmp/chef-repo/.chef/",
+      "cp ${var.chef_server_starter_pack_knife_rb_path} /tmp/chef-repo/.chef/",
+      "sudo chown -R ${var.system_user_name}:${var.system_user_name} /tmp/chef-repo",
+      "tar czf ${var.chef_server_starter_pack_location} -C /tmp/ chef-repo/"
+    ]
+  }
+  depends_on = ["null_resource.chef_run"]
+}
+
+data "external" "chef_server_details" {
+  program = ["bash", "${path.module}/files/data_source.sh"]
+  depends_on = ["null_resource.starter_pack"]
+
+  query = {
+    ssh_user              = "${var.system_user_name}"
+    ssh_key               = "${var.system_user_private_ssh_key}"
+    ssh_pass              = "${var.system_user_pass}"
+    chef_server_ip        = "${module.chef_server.public_ip[0]}"
+    starter_pack_location = "${var.chef_server_starter_pack_location}"
+    starter_pack_dest     = "${var.chef_server_starter_pack_dest}"
+    chef_user             = "${var.chef_server_starter_pack_user}"
+    chef_org              = "${var.chef_server_starter_pack_org}"
+  }
 }

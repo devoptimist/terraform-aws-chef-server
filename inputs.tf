@@ -25,6 +25,11 @@ variable "system_user_pass" {
   default = "P@55w0rd1"
 }
 
+variable "system_user_private_ssh_key" {
+  type    = "string"
+  default = ""
+}
+
 variable "chef_bootstrap_product" {
   type    = "string"
   default = "chef-workstation"
@@ -39,6 +44,33 @@ variable "system_user_public_ssh_key" {
   type    = "string"
   default = ""
 }
+
+variable "chef_server_starter_pack_user" {
+  type    = "string"
+  default = "jdoe"
+}
+
+variable "chef_server_starter_pack_org" {
+  type    = "string"
+  default = "chef-org"
+}
+
+variable "chef_server_starter_pack_knife_rb_path" {
+  type    = "string"
+  default = "/tmp/knife.rb"
+}
+
+variable "chef_server_starter_pack_location" {
+  type    = "string"
+  default = "/tmp/chef-starter-pack.tar.gz"
+}
+
+variable "chef_server_starter_pack_dest" {
+  type    = "string"
+  default = "/tmp/chef-starter-pack.tar.gz"
+}
+
+
 
 variable "chef_server_users" {
   default = {
