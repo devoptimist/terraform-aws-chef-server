@@ -18,6 +18,10 @@ output "validation_pem" {
   value = data.external.chef_server_details.result["validation_pem"]
 }
 
+output "validation_client_name" {
+  value = data.external.chef_server_details.result["validation_client_name"]
+}
+
 output "client_pem" {
   value = data.external.chef_server_details.result["client_pem"]
 }
